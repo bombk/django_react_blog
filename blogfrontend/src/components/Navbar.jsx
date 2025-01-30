@@ -6,12 +6,12 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="bg-blue-600 text-white shadow-lg">
+        <nav className="bg-gray-800 text-white shadow-lg">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <h1 className="text-2xl font-bold">
-                        <Link to="/">MyBlog</Link>
+                        <Link to="/">BB LOG</Link>
                     </h1>
 
                     {/* Desktop Menu */}

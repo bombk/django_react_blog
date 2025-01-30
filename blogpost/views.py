@@ -10,10 +10,18 @@
 
 
 from rest_framework import viewsets
-from .models import BlogPost
-from .serializers import BlogPostSerializer
+from .models import Post, Carousel
+from .serializers import PostSerializer
+from django.http import JsonResponse
 
 class BlogPostViewSet(viewsets.ModelViewSet):
-    queryset = BlogPost.objects.all()
-    serializer_class = BlogPostSerializer
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+def carousel_list(request):
+    images = Carousel.objects.all()
+    data = [{"id": img.id, "title": img.title, "image": request.build_absolute_uri(img.image.url)} for img in images]
+    return JsonResponse(data, safe=False)
+
+
 
