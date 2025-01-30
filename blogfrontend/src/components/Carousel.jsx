@@ -4,12 +4,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { API_URL } from "../config";
 
 const Carousel = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/carousel/")
+    fetch(`${API_URL}/carousel/`)
       .then((res) => res.json())
       .then((data) => setImages(data))
       .catch((error) => console.error("Error fetching carousel images:", error));

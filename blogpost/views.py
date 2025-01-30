@@ -10,11 +10,14 @@
 
 
 from rest_framework import viewsets
-from .models import Post, Carousel , Video
+from .models import Post, Carousel , Video ,Contact
 from .serializers import PostSerializer
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
 
 class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
@@ -56,5 +59,30 @@ def popular_posts(request):
 def video_list(request):
     video_list=Video.objects.order_by('-created_at')
     return JsonResponse(list(video_list.values()),safe=False)
+
+@csrf_exempt
+@api_view(["POST"])
+def contact_view(request):
+    if request.method == "POST":
+        name = request.data.get('name')
+        email = request.data.get('email')
+        number = request.data.get('number')
+        message = request.data.get('message')
+
+        # Save the contact information
+        contact = Contact.objects.create(
+            name=name,
+            email=email,
+            number=number,
+            message=message
+        )
+
+        return JsonResponse({"message": "Contact form submitted successfully!"}, status=200)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+    return JsonResponse({'success': False}) 
+
+def get_csrf_token(request):
+    return JsonResponse({"csrfToken": get_token(request)})
 
 

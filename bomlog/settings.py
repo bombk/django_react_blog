@@ -55,8 +55,10 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # For Vite React
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"  # For Vite React
 ]
+CSRF_COOKIE_NAME = "csrftoken"  # Default CSRF cookie name
 
 ROOT_URLCONF = 'bomlog.urls'
 
@@ -84,11 +86,17 @@ WSGI_APPLICATION = 'bomlog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bombkcom_blog',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',  # Or the IP address of your MySQL server
+        'PORT': '3306', 
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

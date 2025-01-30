@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from "../config";
 
 function VideoList() {
     const [videos, setVideos] = useState([]);
 
     useEffect(() => {
         // Fetch videos from API
-        fetch("http://127.0.0.1:8000/api/videos/")
+        fetch(`${API_URL}/videos/`)
             .then((response) => response.json())
             .then((data) => setVideos(data));
     }, []);

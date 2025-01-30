@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from "../config";
 
 
 function Home() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/posts/")
+        fetch(`${API_URL}/posts/`)
             .then(response => response.json())
             .then(data => setPosts(data));
     }, []);

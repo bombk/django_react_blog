@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
+import { API_URL } from "../config";
 
 function Home() {
     const [posts, setPosts] = useState([]);
@@ -8,12 +9,12 @@ function Home() {
 
     useEffect(() => {
         // Fetch all posts (limit to 9)
-        fetch("http://127.0.0.1:8000/api/posts/")
+        fetch(`${API_URL}/posts/`)
             .then(response => response.json())
             .then(data => setPosts(data.slice(0, 9)));  // Limit to 9 posts
 
         // Fetch popular posts
-        fetch("http://127.0.0.1:8000/api/popular-posts/")
+        fetch(`${API_URL}/popular-posts/`)
             .then(response => response.json())
             .then(data => setPopularPosts(data));
     }, []);

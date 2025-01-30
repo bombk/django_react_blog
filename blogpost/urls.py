@@ -32,5 +32,6 @@ urlpatterns = [
     path("api/popular-posts/", popular_posts, name="popular-posts"),
     path('api/posts/<int:post_id>/', post_detail, name='post-detail'),
     path('api/videos/', video_list, name='video-list'),
+    path('api/contact/', contact_view, name='contact'),
       # Single post view
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

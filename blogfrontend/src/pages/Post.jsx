@@ -1,6 +1,7 @@
 // Post.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../config";
 
 function Post() {
     const { postId } = useParams();
@@ -8,7 +9,7 @@ function Post() {
 
     useEffect(() => {
         // Fetch the post and increment views on the backend
-        fetch(`http://127.0.0.1:8000/api/posts/${postId}/`)
+        fetch(`${API_URL}/posts/${postId}/`)
             .then(response => response.json())
             .then(data => setPost(data));
     }, [postId]);
