@@ -55,8 +55,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173"  # For Vite React
+    "https://bombk.com.np",
+    "http://127.0.0.1:5173",  # For Vite React
+    "http://localhost:5173", # For Vite React
 ]
 CSRF_COOKIE_NAME = "csrftoken"  # Default CSRF cookie name
 
