@@ -80,15 +80,23 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bomlog.wsgi.application'
+
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:52265/1",  # Change according to your Redis setup
+        "LOCATION": "redis://:UnIpGgeyi4MHK7DE7iy@127.0.0.1:52265/1",  # Use Redis database 1
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+# Celery Configuration (if using Celery)
+CELERY_BROKER_URL = "redis://:UnIpGgeyi4MHK7DE7iy@127.0.0.1:52265/0"  # Use Redis database 0
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+
 
 
 # Database
