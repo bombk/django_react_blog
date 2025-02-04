@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-538rn@evq$9yq-$1wsqai4qc1jc7is!$3tqdhymwz8*0zvegj_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.bombk.com.np']
+ALLOWED_HOSTS = ['.bombk.com.np', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -80,6 +80,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bomlog.wsgi.application'
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:52265/1",  # Change according to your Redis setup
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 
 # Database
