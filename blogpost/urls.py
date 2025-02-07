@@ -33,5 +33,10 @@ urlpatterns = [
     path('api/posts/<int:post_id>/', post_detail, name='post-detail'),
     path('api/videos/', video_list, name='video-list'),
     path('api/contact/', contact_view, name='contact'),
+    path("api/signup/", signup, name="signup"),
+    path("api/login/", login_view, name="login"),
+    path("api/user-details/", user_details, name="user-details"),
+    
       # Single post view
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

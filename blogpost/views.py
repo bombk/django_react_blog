@@ -9,8 +9,9 @@
 #     return render(request, 'index.html')
 
 
-from rest_framework import viewsets
-from .models import Post, Carousel , Video ,Contact
+from rest_framework import viewsets,status
+from .models import Post, Carousel , Video ,Contact ,Project,Services
+from django.contrib.auth.models import User
 from .serializers import PostSerializer
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -18,7 +19,9 @@ from rest_framework.response import Response
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
@@ -79,10 +82,58 @@ def contact_view(request):
 
         return JsonResponse({"message": "Contact form submitted successfully!"}, status=200)
     return JsonResponse({"error": "Invalid request"}, status=400)
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+import json
 
-    return JsonResponse({'success': False}) 
+@api_view(["POST"])
+def signup(request):
+    first_name = request.data.get("first_name")
+    last_name = request.data.get("last_name")
+    username = request.data.get("username")
+    email = request.data.get("email")
+    password = request.data.get("password")
 
-def get_csrf_token(request):
-    return JsonResponse({"csrfToken": get_token(request)})
+    if not all([first_name, last_name, username, email, password]):
+        return Response({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
 
+    # Check if username or email already exists
+    if User.objects.filter(username=username).exists():
+        return Response({"error": "Username already taken"}, status=status.HTTP_400_BAD_REQUEST)
+    if User.objects.filter(email=email).exists():
+        return Response({"error": "Email already registered"}, status=status.HTTP_400_BAD_REQUEST)
 
+    # Create user
+    user = User.objects.create(
+        first_name=first_name,
+        last_name=last_name,
+        username=username,
+        email=email,
+        password=make_password(password),  # Hash password before saving
+    )
+
+    return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
+
+@api_view(["POST"])
+def login_view(request):
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    user = authenticate(username=username, password=password)
+    
+    if user is not None:
+        return Response({"message": "Login successful!"}, status=status.HTTP_200_OK)
+    else:
+        return Response({"error": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@login_required
+def user_details(request):
+    user = request.user
+    return JsonResponse({
+        "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "email": user.email,
+        "mobile": user.profile.mobile if hasattr(user, 'profile') else None,
+    })
