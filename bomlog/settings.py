@@ -56,6 +56,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://bombk.com.np",
+    "https://nepalailab.com/"
     "http://127.0.0.1:5173",  # For Vite React
     "http://localhost:5173", # For Vite React
 ]
